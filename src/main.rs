@@ -16,6 +16,11 @@ fn main() {
 
     gamefile.read_to_end(&mut game_data).expect("Couldn't read");
 
+    for i in &game_data {
+        println!("{:#X}", i);
+    }
+
     let mut chip8 = Chip8::new();
     chip8.load_rom(&game_data);
+
 }

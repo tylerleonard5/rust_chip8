@@ -1,7 +1,7 @@
 use crate::ram::Ram;
 
 pub struct Chip8 {
-   pub ram: Ram,
+   ram: Ram,
 }
 
 impl Chip8 {
