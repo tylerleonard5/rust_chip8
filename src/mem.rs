@@ -41,11 +41,11 @@ impl Mem {
     }
 
     // Writes bytes into memory starting at an address
-    pub fn write_bytes_mem(&mut self, address: u16, data: u8) {
+    pub fn write_data(&mut self, address: u16, data: u8) {
         self.memory[address as usize] = data;
     }
 
-    pub fn read_bytes_mem (&mut self, address: u16) -> u8 {
+    pub fn read_data (&mut self, address: u16) -> u8 {
         self.memory[address as usize]
     }
 }

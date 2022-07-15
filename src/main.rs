@@ -5,7 +5,6 @@ use chip8::Chip8;
 
 mod chip8;
 mod mem;
-mod bus;
 mod cpu;
 
 fn main() {
@@ -28,8 +27,8 @@ fn main() {
     chip8.load_data(&game_data);
 
     // // TESTING THE DATA LOADING
-    // for i in 0..chip8.bus.mem.memory.len(){
-    //     print!("{:#X}", chip8.bus.mem.memory[i]);
-    // }
+     for i in 0..chip8.mem.memory.len(){
+         print!("{:#X}", chip8.mem.memory[i]);
+     }
 
 }
