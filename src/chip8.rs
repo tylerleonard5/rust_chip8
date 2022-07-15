@@ -1,7 +1,8 @@
-use crate::mem::Mem;
-const PROGRAM_START: u16 = 0x200;
+use crate::{mem::Mem, cpu::Cpu};
+pub(crate) const PROGRAM_START: u16 = 0x200;
 pub struct Chip8 {
-    pub mem: Mem
+    pub mem: Mem,
+    pub cpu: Cpu,
 }
 
 impl Chip8 {
@@ -9,8 +10,8 @@ impl Chip8 {
     // Initialize Chip8
     pub fn new() -> Chip8{
         Chip8 { 
-            mem: Mem::new()
-
+            mem: Mem::new(),
+            cpu: Cpu::new(),
         
         }
     }
