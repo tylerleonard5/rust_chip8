@@ -14,7 +14,7 @@ impl Bus {
     }
 
     // Writes data to memory
-    pub fn write_data(&mut self, address: u16, data: u8){
+    pub fn write_data_toMem(&mut self, address: u16, data: u8){
         self.mem.write_bytes_mem(address, data);
     }
 }

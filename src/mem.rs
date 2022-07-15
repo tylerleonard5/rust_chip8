@@ -32,7 +32,7 @@ impl Mem {
         let mut count = 0;
         for sprite in interpreter{
             for i in sprite{
-                temp.memory[count] = i;
+                temp.memory[0x050 + count] = i;
                 count += 1;
             }
         }
@@ -43,5 +43,9 @@ impl Mem {
     // Writes bytes into memory starting at an address
     pub fn write_bytes_mem(&mut self, address: u16, data: u8) {
         self.memory[address as usize] = data;
+    }
+
+    pub fn read_bytes_mem (&mut self, address: u16) -> u8 {
+        self.memory[address as usize]
     }
 }

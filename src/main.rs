@@ -27,9 +27,9 @@ fn main() {
     // load data into chip8 instance
     chip8.load_data(&game_data);
 
-    // TESTING THE DATA LOADING
-    for i in 0..chip8.bus.mem.memory.len(){
-        print!("{:#X}", chip8.bus.mem.memory[i]);
-    }
+    // // TESTING THE DATA LOADING
+    // for i in 0..chip8.bus.mem.memory.len(){
+    //     print!("{:#X}", chip8.bus.mem.memory[i]);
+    // }
 
 }
