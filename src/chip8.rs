@@ -22,4 +22,8 @@ impl Chip8 {
             self.mem.write_data((PROGRAM_START as usize + i) as u16, data[i]);
         }
     }
+
+    pub fn run_instructions(&mut self){
+        self.cpu.run_instructions(&mut self.mem);
+    }
 }

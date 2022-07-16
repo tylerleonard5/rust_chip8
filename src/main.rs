@@ -25,6 +25,7 @@ fn main() {
 
     // load data into chip8 instance
     chip8.load_data(&game_data);
+    chip8.run_instructions();
 
     // // TESTING THE DATA LOADING
     //  for i in 0..chip8.mem.memory.len(){

@@ -1,7 +1,7 @@
 use rand::Rng;
 
 
-use crate::chip8;
+use crate::{chip8, mem::{self, Mem}};
 
 
 pub struct Cpu {
@@ -23,5 +23,16 @@ impl Cpu {
         }
     }
 
-    
+    pub fn run_instructions(&mut self, mem: &mut Mem){
+        
+        // TEST INSTRUCTION LOADING
+        // for instruction in mem.memory.iter() {
+        //     print!("{:#X}", instruction);
+        // }
+
+        let hi = mem.read_data(self.pc) as u16;
+        let lo= mem.read_data(self.pc + 1) as u16;
+
+        let instruction = (hi << 8 as u8) | lo;
+    }
 }
