@@ -60,6 +60,7 @@ impl Cpu {
                 match nnn {
                     0x0E0 => {
                         self.display = [0; 64*32];
+                        self.pc += 2;
                         }
 
 
@@ -72,19 +73,29 @@ impl Cpu {
             }
             0x6 => {
                 self.regs[(x - 1) as usize] = nn as u8;
+                self.pc += 2;
             }
 
             0x7 => {
                 let ins = self.regs[(x - 1) as usize] + (nn as u8);
                 self.regs[(x - 1) as usize] = ins;
+                self.pc += 2;
             }
 
             0xA => {
                 self.I = nnn;
+                self.pc += 2;
             }
 
             //IMPLEMENT DISPLAY
+            0xD => {
+                let xCor = self.regs[(x - 1) as usize] % 64;
+                let yCor = self.regs[(y - 1) as usize] % 32;
+                self.regs[15] = 0;
 
+                
+                self.pc += 2;
+            }
             _ => print!("default")
 
         }
