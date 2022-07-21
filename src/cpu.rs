@@ -1,12 +1,12 @@
 use rand::Rng;
 
 
-use crate::{chip8, mem::{self, Mem}};
+use crate::{chip8, mem::{Mem}};
 
 
 pub struct Cpu {
     regs: [u8; 16],
-    I: u16,
+    index: u16,
     pc: u16,
     stack: Vec<u16>,
     sp: u8,
@@ -17,7 +17,7 @@ impl Cpu {
     pub fn new() -> Cpu {
         Cpu { 
             regs: [0; 16],
-            I: 0,
+            index: 0,
             stack: Vec::new(),
             sp: 0,
             pc: chip8::PROGRAM_START,
@@ -83,14 +83,14 @@ impl Cpu {
             }
 
             0xA => {
-                self.I = nnn;
+                self.index = nnn;
                 self.pc += 2;
             }
 
             //IMPLEMENT DISPLAY
             0xD => {
-                let xCor = self.regs[(x - 1) as usize] % 64;
-                let yCor = self.regs[(y - 1) as usize] % 32;
+                let x_cor = self.regs[(x - 1) as usize] % 64;
+                let y_cor = self.regs[(y - 1) as usize] % 32;
                 self.regs[15] = 0;
 
                 
