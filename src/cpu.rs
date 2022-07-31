@@ -97,7 +97,7 @@ impl Cpu {
                 self.regs[15] = 0;
 
                 for i in 0..n { // each i is the row of sprite data
-                    let data = mem.read_data(self.index + i); // data from index
+                    let mut data = mem.read_data(self.index + i); // data from index
 
                     for _i in 0..8 {
                         let curr_bit = data >> 7;
@@ -114,6 +114,8 @@ impl Cpu {
                         if x_cor > 63 {
                             break;
                         }
+
+                        data = data << 1;
 
                     }
                     y_cor += 1;

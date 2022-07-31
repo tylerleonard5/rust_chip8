@@ -1,0 +1,1 @@
+window.ALL_CRATES = ["bitflags","cfg_if","cty","getrandom","instant","lock_api","log","once_cell","ppv_lite86","rand","rand_chacha","rand_core","raw_window_handle","scopeguard","smallvec","windows_sys","windows_x86_64_msvc","winit_input_helper"];
