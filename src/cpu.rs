@@ -60,6 +60,9 @@ impl Cpu {
                 match nnn {
                     0x0E0 => {
                         self.display = [0; 64*32];
+
+                        // draw display onto the screen
+
                         self.pc += 2;
                         }
 
@@ -119,6 +122,8 @@ impl Cpu {
                         break;
                     }
                 }
+
+                // draw display on screen
                 
                 self.pc += 2;
             }
