@@ -89,10 +89,36 @@ impl Cpu {
 
             //IMPLEMENT DISPLAY
             0xD => {
-                let x_cor = self.regs[(x - 1) as usize] % 64;
-                let y_cor = self.regs[(y - 1) as usize] % 32;
+                let mut x_cor = self.regs[(x - 1) as usize] % 64;
+                let mut y_cor = self.regs[(y - 1) as usize] % 32;
                 self.regs[15] = 0;
 
+                for i in 0..n { // each i is the row of sprite data
+                    let data = mem.read_data(self.index + i); // data from index
+
+                    for _i in 0..8 {
+                        let curr_bit = data >> 7;
+
+                        if curr_bit == 1 && self.display[((y_cor*64) + x_cor) as usize] == 1 {
+                            self.display[((y_cor*64) + x_cor) as usize] = 0;
+                            self.regs[15] = 1;
+                        }else{
+                            self.display[((y_cor*64) + x_cor) as usize] = 1;
+                        }
+
+                        x_cor += 1;
+                        
+                        if x_cor > 63 {
+                            break;
+                        }
+
+                    }
+                    y_cor += 1;
+
+                    if y_cor > 31 {
+                        break;
+                    }
+                }
                 
                 self.pc += 2;
             }
