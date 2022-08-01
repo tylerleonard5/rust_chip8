@@ -43,7 +43,7 @@ fn main() {
 
     let event_loop = EventLoop::new();
     let window = WindowBuilder::new()
-            .with_title("Rust by Example: Winit!")
+            .with_title("Chip 8 Emulator!")
             .build(&event_loop)
             .unwrap();
 
