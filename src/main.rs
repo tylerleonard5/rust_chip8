@@ -36,7 +36,7 @@ fn main() {
     // // TESTING THE DATA LOADING
     //  for i in 0..chip8.mem.memory.len(){
     //      print!("{:#X}", chip8.mem.memory[i]);
-    //  }
+    //   }
 
 
     let mut input = WinitInputHelper::new();
