@@ -16,7 +16,7 @@ mod cpu;
 
 fn main() {
     // load game file
-    let mut gamefile = match File::open("gameData/INVADERS") {
+    let mut gamefile = match File::open("gameData/IBM Logo.ch8") {
         Ok(file) => file,
         Err(_) => panic!("Couldn't open file"),
     };
@@ -32,12 +32,19 @@ fn main() {
 
     // load data into chip8 instance
     chip8.load_data(&game_data);
-    chip8.run_instructions();
+    
+
+
 
     // // TESTING THE DATA LOADING
     //  for i in 0..chip8.mem.memory.len(){
     //      print!("{:#X}", chip8.mem.memory[i]);
     //   }
+
+
+    //for i in 0..chip8.cpu.display.len(){
+    //    print!("{:#X}", chip8.cpu.display[i]);
+    //}
 
 
     let mut input = WinitInputHelper::new();
@@ -54,6 +61,8 @@ fn main() {
                 *control_flow = ControlFlow::Exit;
                 return;
             }
+
+            chip8.run_instructions();
 
             let mouse_diff = input.mouse_diff();
             if mouse_diff != (0.0, 0.0) {

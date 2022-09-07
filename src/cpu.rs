@@ -10,7 +10,7 @@ pub struct Cpu {
     pc: u16,
     stack: Vec<u16>,
     sp: u8,
-    display: [u8; 64 * 32]
+    pub display: [u8; 64 * 32]
 }
 
 impl Cpu {
@@ -46,19 +46,22 @@ impl Cpu {
 
         let kind = (instruction & 0xF000) >> 12;
 
-        // println!("{:#X}", instruction);
-        // println!("{:#X}", kind);
-        // println!("{:#X}", x);
+        println!("{:#X}", instruction);
+        println!("{:#X}", kind);
+        println!("{:#X}", hi);
+        println!("{:#X}", lo);
+        println!("{:#X}", x);
         // println!("{:#X}", y);
         // println!("{:#X}", nnn);
         // println!("{:#X}", nn);
-        // println!("{:#X}", n);
+         println!("{:#X}", n);
 
 
         match kind {
             0x0 => {
                 match nnn {
                     0x0E0 => {
+                        print!("HERE");
                         self.display = [0; 64*32];
 
                         // draw display onto the screen
@@ -75,13 +78,13 @@ impl Cpu {
                 self.pc = nnn;
             }
             0x6 => {
-                self.regs[(x - 1) as usize] = nn as u8;
+                self.regs[(x) as usize] = nn as u8;
                 self.pc += 2;
             }
 
             0x7 => {
-                let ins = self.regs[(x - 1) as usize] + (nn as u8);
-                self.regs[(x - 1) as usize] = ins;
+                let ins = self.regs[(x) as usize] + (nn as u8);
+                self.regs[(x) as usize] = ins;
                 self.pc += 2;
             }
 
@@ -92,8 +95,11 @@ impl Cpu {
 
             //IMPLEMENT DISPLAY
             0xD => {
-                let mut x_cor = self.regs[(x - 1) as usize] % 64;
-                let mut y_cor = self.regs[(y - 1) as usize] % 32;
+                let mut x_cor = self.regs[(x) as usize] % 64;
+                let mut y_cor = self.regs[(y) as usize] % 32;
+                println!("{}", x_cor);
+                println!("{}", y_cor);
+                println!("{}", self.display.len());
                 self.regs[15] = 0;
 
                 for i in 0..n { // each i is the row of sprite data
