@@ -4,6 +4,7 @@ use winit::event::VirtualKeyCode;
 use winit::event_loop::{ControlFlow, EventLoop};
 use winit::window::WindowBuilder;
 use winit_input_helper::WinitInputHelper;
+use pixels::{Error, Pixels, SurfaceTexture};
 
 use chip8::Chip8;
 
@@ -31,7 +32,6 @@ fn main() {
 
     // load data into chip8 instance
     chip8.load_data(&game_data);
-    chip8.run_instructions();
 
     // // TESTING THE DATA LOADING
     //  for i in 0..chip8.mem.memory.len(){
@@ -54,6 +54,7 @@ fn main() {
                 return;
             }
 
+            chip8.run_instructions();
             let mouse_diff = input.mouse_diff();
             if mouse_diff != (0.0, 0.0) {
                 println!("Mouse diff is: {:?}", mouse_diff);
