@@ -34,6 +34,32 @@ fn main() {
     chip8.load_data(&game_data);
     
 
+    //FOR IBM LOGO
+    chip8.run_instructions();
+    chip8.run_instructions();
+    chip8.run_instructions();
+    chip8.run_instructions();
+    chip8.run_instructions();
+    chip8.run_instructions();
+    chip8.run_instructions();
+    chip8.run_instructions();
+    chip8.run_instructions();
+    chip8.run_instructions();
+    chip8.run_instructions();
+    chip8.run_instructions();
+    chip8.run_instructions();
+    chip8.run_instructions();
+    chip8.run_instructions();
+    chip8.run_instructions();
+    chip8.run_instructions();
+    chip8.run_instructions();
+    chip8.run_instructions();
+    chip8.run_instructions();
+    chip8.run_instructions();  //Loops
+
+
+
+
 
 
     // // TESTING THE DATA LOADING
@@ -42,9 +68,9 @@ fn main() {
     //   }
 
 
-    //for i in 0..chip8.cpu.display.len(){
-    //    print!("{:#X}", chip8.cpu.display[i]);
-    //}
+    for i in 0..chip8.cpu.display.len(){
+        print!("{:#X}", chip8.cpu.display[i]);
+    }
 
 
     let mut input = WinitInputHelper::new();
@@ -62,7 +88,7 @@ fn main() {
                 return;
             }
 
-            chip8.run_instructions();
+            // chip8.run_instructions();
 
             let mouse_diff = input.mouse_diff();
             if mouse_diff != (0.0, 0.0) {

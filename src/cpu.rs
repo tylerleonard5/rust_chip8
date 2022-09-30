@@ -47,14 +47,15 @@ impl Cpu {
         let kind = (instruction & 0xF000) >> 12;
 
         println!("{:#X}", instruction);
-        println!("{:#X}", kind);
-        println!("{:#X}", hi);
-        println!("{:#X}", lo);
-        println!("{:#X}", x);
-        // println!("{:#X}", y);
-        // println!("{:#X}", nnn);
-        // println!("{:#X}", nn);
-         println!("{:#X}", n);
+        // println!("{:#X}", kind);
+        // println!("{:#X}", hi);
+        // println!("{:#X}", lo);
+        // println!("{:#X}", x);
+        // // println!("{:#X}", y);
+        // // println!("{:#X}", nnn);
+        // // println!("{:#X}", nn);
+        //  println!("{:#X}", n);
+        println!("{:#X}", self.pc);
 
 
         match kind {
@@ -100,6 +101,7 @@ impl Cpu {
                 println!("{}", x_cor);
                 println!("{}", y_cor);
                 println!("{}", self.display.len());
+                println!("{}", (((y_cor as u16)*(64))) + x_cor as u16);
                 self.regs[15] = 0;
 
                 for i in 0..n { // each i is the row of sprite data
@@ -108,11 +110,11 @@ impl Cpu {
                     for _i in 0..8 {
                         let curr_bit = data >> 7;
 
-                        if curr_bit == 1 && self.display[((y_cor*64) + x_cor) as usize] == 1 {
-                            self.display[((y_cor*64) + x_cor) as usize] = 0;
+                        if curr_bit == 1 && self.display[((((y_cor as u16)*(64))) + x_cor as u16) as usize] == 1 {
+                            self.display[((((y_cor as u16)*(64))) + x_cor as u16) as usize] = 0;
                             self.regs[15] = 1;
                         }else{
-                            self.display[((y_cor*64) + x_cor) as usize] = 1;
+                            self.display[((((y_cor as u16)*(64))) + x_cor as u16) as usize] = 1;
                         }
 
                         x_cor += 1;
