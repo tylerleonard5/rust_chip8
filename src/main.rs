@@ -1,10 +1,10 @@
 use std::fs::File;
 use std::io::Read;
-use winit::event::VirtualKeyCode;
+use winit::event::{VirtualKeyCode, Event};
 use winit::event_loop::{ControlFlow, EventLoop};
 use winit::window::WindowBuilder;
 use winit_input_helper::WinitInputHelper;
-use pixels::{Error, Pixels, SurfaceTexture};
+use pixels::{Pixels, SurfaceTexture};
 
 use chip8::Chip8;
 
@@ -16,7 +16,7 @@ mod cpu;
 
 fn main() {
     // load game file
-    let mut gamefile = match File::open("gameData/IBM Logo.ch8") {
+    let mut gamefile = match File::open("gameData/ibm.ch8") {
         Ok(file) => file,
         Err(_) => panic!("Couldn't open file"),
     };
@@ -32,33 +32,7 @@ fn main() {
 
     // load data into chip8 instance
     chip8.load_data(&game_data);
-    
-
-    //FOR IBM LOGO
-    chip8.run_instructions();
-    chip8.run_instructions();
-    chip8.run_instructions();
-    chip8.run_instructions();
-    chip8.run_instructions();
-    chip8.run_instructions();
-    chip8.run_instructions();
-    chip8.run_instructions();
-    chip8.run_instructions();
-    chip8.run_instructions();
-    chip8.run_instructions();
-    chip8.run_instructions();
-    chip8.run_instructions();
-    chip8.run_instructions();
-    chip8.run_instructions();
-    chip8.run_instructions();
-    chip8.run_instructions();
-    chip8.run_instructions();
-    chip8.run_instructions();
-    chip8.run_instructions();
-    chip8.run_instructions();  //Loops
-
-
-
+    //Loops
 
 
 
@@ -80,22 +54,51 @@ fn main() {
             .with_title("Chip 8 Emulator!")
             .build(&event_loop)
             .unwrap();
+    let mut pixels = {
+        let window_size = window.inner_size();
+        let surface_texture = SurfaceTexture::new(64, 32, &window);
+        Pixels::new(64, 32, surface_texture).unwrap()
+    };
 
     event_loop.run(move |event, _, control_flow| {
+
+        if let Event::RedrawRequested(_) = event {
+            draw(&chip8.cpu.display, pixels.get_frame());
+            if pixels.render().is_err() {
+                *control_flow = ControlFlow::Exit;
+                return;
+            }
+        }
+
         if input.update(&event) {
             if input.key_released(VirtualKeyCode::Escape) || input.quit() {
+                for i in 0..chip8.cpu.display.len(){
+                    print!("{:?}", chip8.cpu.display[i]);
+                }
                 *control_flow = ControlFlow::Exit;
                 return;
             }
 
-            // chip8.run_instructions();
-
-            let mouse_diff = input.mouse_diff();
-            if mouse_diff != (0.0, 0.0) {
-                println!("Mouse diff is: {:?}", mouse_diff);
-                println!("Mouse position is: {:?}", input.mouse());
+            if let Some(size) = input.window_resized() {
+                pixels.resize_surface(size.width, size.height)
             }
+
+            chip8.run_instructions();
+
+
+            window.request_redraw();
         }
     });
+
+    fn draw(display: &[u8; 64*32], frame: &mut [u8]){
+        for (i, pixel) in frame.chunks_exact_mut(4).enumerate() {
+            let rgba = if display[i] == 0{
+                [0x00, 0x00, 0x00, 0xff]
+            } else {
+                [0xff, 0xff, 0xff, 0xff]
+            };
+            pixel.copy_from_slice(&rgba);
+        }
+    }
 
 }

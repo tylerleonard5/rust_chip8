@@ -46,23 +46,23 @@ impl Cpu {
 
         let kind = (instruction & 0xF000) >> 12;
 
-        println!("{:#X}", instruction);
-        // println!("{:#X}", kind);
-        // println!("{:#X}", hi);
-        // println!("{:#X}", lo);
-        // println!("{:#X}", x);
-        // // println!("{:#X}", y);
-        // // println!("{:#X}", nnn);
-        // // println!("{:#X}", nn);
-        //  println!("{:#X}", n);
-        println!("{:#X}", self.pc);
+        // println!("{:#X}", instruction);
+        // // println!("{:#X}", kind);
+        // // println!("{:#X}", hi);
+        // // println!("{:#X}", lo);
+        // // println!("{:#X}", x);
+        // // // println!("{:#X}", y);
+        // // // println!("{:#X}", nnn);
+        // // // println!("{:#X}", nn);
+        // //  println!("{:#X}", n);
+        // println!("{:#X}", self.pc);
 
 
         match kind {
             0x0 => {
                 match nnn {
                     0x0E0 => {
-                        print!("HERE");
+                        println!("HERE");
                         self.display = [0; 64*32];
 
                         // draw display onto the screen
@@ -105,6 +105,7 @@ impl Cpu {
                 self.regs[15] = 0;
 
                 for i in 0..n { // each i is the row of sprite data
+                    x_cor = self.regs[(x) as usize] % 64;
                     let mut data = mem.read_data(self.index + i); // data from index
 
                     for _i in 0..8 {
@@ -113,15 +114,14 @@ impl Cpu {
                         if curr_bit == 1 && self.display[((((y_cor as u16)*(64))) + x_cor as u16) as usize] == 1 {
                             self.display[((((y_cor as u16)*(64))) + x_cor as u16) as usize] = 0;
                             self.regs[15] = 1;
-                        }else{
+                        }else if curr_bit == 1 && self.display[((((y_cor as u16)*(64))) + x_cor as u16) as usize] == 0 {
                             self.display[((((y_cor as u16)*(64))) + x_cor as u16) as usize] = 1;
                         }
-
-                        x_cor += 1;
                         
                         if x_cor > 63 {
                             break;
                         }
+                        x_cor += 1;
 
                         data = data << 1;
 
