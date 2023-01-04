@@ -73,19 +73,111 @@ impl Cpu {
                     _ => print!("default"),
                 }
             }
-
             0x1 => {
                 self.pc = nnn;
+            }
+            0x2 => {
+                self.stack.push(self.pc);
+                self.pc = nnn;
+            }
+            0x3 => {
+                if self.regs[(x) as usize] == nn as u8 {
+                    self.pc += 2;
+                }
+            }
+            0x4 => {
+                if self.regs[(x) as usize] != nn as u8 {
+                    self.pc += 2;
+                }
+            }
+            0x5 => {
+                if self.regs[(x) as usize] == self.regs[(y) as usize] {
+                    self.pc += 2;
+                }
             }
             0x6 => {
                 self.regs[(x) as usize] = nn as u8;
                 self.pc += 2;
             }
-
             0x7 => {
                 let ins = self.regs[(x) as usize] + (nn as u8);
                 self.regs[(x) as usize] = ins;
                 self.pc += 2;
+            }
+            0x8 => {
+                match n {
+                    0x0 => {
+                        self.regs[(x) as usize] = self.regs[(y) as usize];
+                        self.pc += 2;
+                    }
+                    0x1 => {
+                        self.regs[(x) as usize] = self.regs[(x) as usize] | self.regs[(y) as usize];
+                        self.pc += 2;
+                    }
+                    0x2 => {
+                        self.regs[(x) as usize] = self.regs[(x) as usize] & self.regs[(y) as usize];
+                        self.pc += 2;
+                    }
+                    0x3 => {
+                        self.regs[(x) as usize] = self.regs[(x) as usize] ^ self.regs[(y) as usize];
+                        self.pc += 2;
+                    }
+                    0x4 => {
+                        self.regs[(x) as usize] = self.regs[(x) as usize] + self.regs[(y) as usize];
+                        if self.regs[(x) as usize] > 255 as u8 {
+                            self.regs[15] = 1;
+                        } else {
+                            self.regs[15] = 0;
+                        }
+                        self.pc += 2;
+                    }
+                    0x5 => {
+                        if self.regs[(x) as usize] > self.regs[(y) as usize] {
+                            self.regs[15] = 1;
+                        } else {
+                            self.regs[15] = 0;
+                        }
+                        self.regs[(x) as usize] = self.regs[(x) as usize] - self.regs[(y) as usize];
+
+                        self.pc += 2;
+                    }
+                    0x6 => {
+                        self.regs[(x) as usize] = self.regs[(y) as usize];
+                        if self.regs[(x) as usize] & 0b00000001 == 0b00000001 {
+                            self.regs[15] = 1;
+                        } else {
+                            self.regs[15] = 0;
+                        }
+                        self.regs[(x) as usize] = self.regs[(x) as usize] >> 1;
+                        self.pc += 2;
+                    }
+                    0x7 => {
+                        if self.regs[(y) as usize] > self.regs[(x) as usize] {
+                            self.regs[15] = 1;
+                        } else {
+                            self.regs[15] = 0;
+                        }
+                        self.regs[(x) as usize] = self.regs[(y) as usize] - self.regs[(x) as usize];
+
+                        self.pc += 2;
+                    }
+                    0xE => {
+                        self.regs[(x) as usize] = self.regs[(y) as usize];
+                        if self.regs[(x) as usize] & 0b10000000 == 0b10000000 {
+                            self.regs[15] = 1;
+                        } else {
+                            self.regs[15] = 0;
+                        }
+                        self.regs[(x) as usize] = self.regs[(x) as usize] << 1;
+                        self.pc += 2;
+                    }
+                    _ => print!("default"),
+                }
+            }
+            0x9 => {
+                if self.regs[(x) as usize] != self.regs[(y) as usize] {
+                    self.pc += 2;
+                }
             }
 
             0xA => {
